@@ -1,0 +1,83 @@
+
+body {
+
+    display: flex;
+    flex-wrap: nowrap;
+
+
+}
+
+nav {
+
+    text-align: center;
+
+}
+
+.pages {
+    
+    ul {
+
+        padding: 0;
+        margin:0;
+
+    }
+
+    li {
+
+        list-style: none;
+
+        a {
+
+            white-space: nowrap;
+
+        }
+
+    }
+
+}
+
+.social {
+
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+
+}
+
+.grid {
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+
+}
+
+.about {
+
+    text-align: center;
+
+
+}
+
+footer {
+
+    display: flex;
+    flex-wrap: nowrap;
+
+}
+
+.backtop {
+
+
+    text-align: center;
+
+}
+
+
+
+
+
+
+
+
+
