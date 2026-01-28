@@ -1,0 +1,34 @@
+// ==========================================================================
+// Global Config
+// ==========================================================================
+
+// Font
+
+@font-face {
+
+	font-family: Poppins;
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: local(""), url(../../font/poppins-v15-latin-regular.woff2) format("woff2"), url(/font/poppins-v15-latin-regular.woff) format("woff")
+
+}
+
+@font-face {
+
+	font-family: Poppins;
+	font-style: normal;
+	font-weight: 600;
+	font-display: swap;
+	src: local(""), url(../../font/poppins-v15-latin-600.woff2) format("woff2"), url(/font/poppins-v15-latin-600.woff) format("woff")
+}
+
+// Colours
+
+$color_1: #54afcc;
+$color_2: white;
+$color_3: inherit;
+$color_4: grey;
+$font-family_1: Poppins, sans-serif;
+$background-color_1: rgba(0, 0, 0, 0.2);
+$border-color_1: transparent;
