@@ -1,8 +1,6 @@
 $(function () {
   var typingPhrases = [
     "Viljamas S.",
-    "a Front-End Developer",
-    "ready to build your next project"
   ];
   var typingElement = $("#typing-banner");
   var phraseIndex = 0;
