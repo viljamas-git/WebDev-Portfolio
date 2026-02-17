@@ -8,6 +8,9 @@
     <body>
         <nav>
             <div class="logo">V</div>
+            <button class="menu-toggle" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
+                ☰ Menu
+            </button>
             <div class="pages">
                 <ul>
                     <li><a href="about.html">About Me</a></li>
@@ -45,7 +48,7 @@
         <div class="principal">
              <header class="about">
                     <h1>
-                        My Name is Viljamas S.|
+                        <span class="banner-static">My Name is </span><span id="typing-banner" aria-live="polite"></span>
                     </h1>
                     <h3> 
                         I'm a Web Developer
@@ -128,26 +131,30 @@
                         </p>
                     </div>
                     <div class="form-container">
-                        <form>
+                        <form id="contact-form" novalidate>
                             <div class="name-section">
                                 <div class="name-input">
-                                    <input placeholder="First Name*">
+                                    <input id="first-name" name="first-name" placeholder="First Name*" required>
                                 </div>
                                 <div class="name-input">
-                                    <input placeholder="Last Name*">
+                                    <input id="last-name" name="last-name" placeholder="Last Name*" required>
                                 </div>
                             </div>
                             <div>
-                                <input placeholder="Email Address*">
+                                <input id="email" name="email" placeholder="Email Address*" required>
                             </div>
                             <div>
-                                <input placeholder="Subject">
+                                <input id="phone" name="phone" placeholder="Phone Number*" required>
                             </div>
                             <div>
-                                <input placeholder="Message" class="message">                                
+                                <input id="subject" name="subject" placeholder="Subject">
                             </div>
                             <div>
-                                <button>Submit</button>
+                                <input id="message" name="message" placeholder="Message*" class="message" required>                                
+                            </div>
+                            <p id="form-status" class="form-status" role="alert"></p>
+                            <div>
+                                <button type="submit">Submit</button>
                             </div>
                         </form>
                     </div>
@@ -162,5 +169,8 @@
                 </div>
             </div>
         </div>
+        <script src="js/jquery-1.11.2.min.js"></script>
+        <script src="js/sticky/jquery.sticky.js"></script>
+        <script src="js/main.js"></script>
     </body>
 </html>
