@@ -40,6 +40,19 @@ nav {
 
 }
 
+.menu-toggle {
+
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 10px 16px;
+    border: 2px solid #54afcc;
+    border-radius: 4px;
+    background-color: white;
+    color: #54afcc;
+    font-weight: 600;
+
+}
+
 .logo {
 
     font-size: 7rem;
@@ -82,6 +95,40 @@ nav {
         }
 
     }
+
+}
+
+
+
+nav {
+
+    position: relative;
+
+}
+
+.pages {
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 260px;
+    height: 100vh;
+    background-color: white;
+    box-shadow: 4px 0 12px rgba(0, 0, 0, 0.2);
+    transform: translateX(-105%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 10;
+
+}
+
+.pages ul {
+
+    padding-top: 140px;
+
+}
+.pages.open {
+
+    transform: translateX(0%);
 
 }
 
@@ -145,6 +192,24 @@ header {
 
         padding-top: 9%;
         margin-top: auto;
+
+    }
+
+}
+
+#typing-banner::after {
+
+    content: "|";
+    margin-left: 3px;
+    animation: cursor-blink 0.8s steps(2, start) infinite;
+
+}
+
+@keyframes cursor-blink {
+
+    to {
+
+        visibility: hidden;
 
     }
 
@@ -337,6 +402,33 @@ input {
 
 }
 
+input.input-error {
+
+    border-color: #d7263d;
+    box-shadow: 0 0 0 2px rgba(215, 38, 61, 0.2);
+
+}
+
+.form-status {
+
+    min-height: 20px;
+    margin: 5px;
+    font-weight: 600;
+
+}
+
+.form-status.error {
+
+    color: #d7263d;
+
+}
+
+.form-status.success {
+
+    color: #2e7d32;
+
+}
+
 button {
 
     padding: 1% 5% 1% 5%;
@@ -399,7 +491,31 @@ button {
 
 
 @media (min-width: 768px) {
+
+    .menu-toggle {
+
+        display: none;
+
+    }
+
+    .pages {
+
+        position: static;
+        width: auto;
+        height: auto;
+        background-color: transparent;
+        box-shadow: none;
+        transform: none !important;
+
+    }
         
+
+    .pages ul {
+
+        padding-top: 100px;
+
+    }
+
     body {
 
         display: flex;
