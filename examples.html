@@ -7,11 +7,14 @@
     </head>
     <body>
         <nav>
-            <div class="logo">V</div>
+            <a class="logo" href="index.html" aria-label="Go to homepage">V</a>
+            <button class="menu-toggle" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
+                ☰ Menu
+            </button>
             <div class="pages">
                 <ul>
                     <li><a href="about.html">About Me</a></li>
-                    <li><a href="portfolio.html">My Portfolio</a></li>
+                    <li><a href="index.html#grid">My Portfolio</a></li>
                     <li><a href="examples.html">Coding Examples</a></li>
                     <li><a href="scheme.html">SCS Scheme</a></li>
                 </ul>
@@ -47,5 +50,8 @@
                 Comming Soon
             </p>
         </div>
+        <script src="js/jquery-1.11.2.min.js"></script>
+        <script src="js/sticky/jquery.sticky.js"></script>
+        <script src="js/main.js"></script>
     </body>
 </html>

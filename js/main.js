@@ -44,23 +44,41 @@ $(function () {
   var menuToggle = $(".menu-toggle");
   var pageMenu = $(".pages");
 
+  function setMenuState(isOpen) {
+    pageMenu.toggleClass("open", isOpen);
+    menuToggle.attr("aria-expanded", String(isOpen));
+    $("body").toggleClass("menu-open", isOpen && window.innerWidth < 768);
+  }
+
   menuToggle.on("click", function () {
-    var isOpen = pageMenu.hasClass("open");
-    pageMenu.toggleClass("open");
-    $(this).attr("aria-expanded", String(!isOpen));
+    setMenuState(!pageMenu.hasClass("open"));
   });
 
   pageMenu.find("a").on("click", function () {
     if (window.innerWidth < 768) {
-      pageMenu.removeClass("open");
-      menuToggle.attr("aria-expanded", "false");
+      setMenuState(false);
+    }
+  });
+
+  $(document).on("click", function (event) {
+    if (window.innerWidth >= 768 || !pageMenu.hasClass("open")) {
+      return;
+    }
+
+    if (!$(event.target).closest(".pages, .menu-toggle").length) {
+      setMenuState(false);
+    }
+  });
+
+  $(document).on("keydown", function (event) {
+    if (event.key === "Escape" && pageMenu.hasClass("open")) {
+      setMenuState(false);
     }
   });
 
   $(window).on("resize", function () {
     if (window.innerWidth >= 768) {
-      pageMenu.removeClass("open");
-      menuToggle.attr("aria-expanded", "false");
+      setMenuState(false);
     }
   });
 
