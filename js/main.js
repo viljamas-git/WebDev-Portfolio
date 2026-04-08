@@ -1,4 +1,5 @@
 $(function () {
+  // Rotating phrases rendered in the hero banner typing animation.
   var typingPhrases = [
     "Viljamas S.",
   ];
@@ -7,6 +8,7 @@ $(function () {
   var characterIndex = 0;
   var isDeleting = false;
 
+  // Types and deletes characters to create a looping "typewriter" effect.
   function runTypingEffect() {
     if (!typingElement.length) {
       return;
@@ -41,9 +43,11 @@ $(function () {
 
   runTypingEffect();
 
+  // Mobile navigation controls.
   var menuToggle = $(".menu-toggle");
   var pageMenu = $(".pages");
 
+  // Centralized helper that keeps menu CSS classes and ARIA state in sync.
   function setMenuState(isOpen) {
     pageMenu.toggleClass("open", isOpen);
     menuToggle.attr("aria-expanded", String(isOpen));
@@ -82,13 +86,34 @@ $(function () {
     }
   });
 
+  // Contact form state and validation patterns.
   var contactForm = $("#contact-form");
   var statusMessage = $("#form-status");
   var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
   var phoneRegex = /^(\+?\d{1,3}[\s-]?)?(\(?\d{3}\)?[\s-]?)?\d{3}[\s-]?\d{4}$/;
 
+  // Adds/removes visual error styling for a form control.
   function setFieldError(field, hasError) {
     field.toggleClass("input-error", hasError);
+  }
+
+  // Normalizes server-side error formats into a plain list of messages.
+  function collectErrorMessages(response) {
+    if (!response) {
+      return [];
+    }
+
+    if (Array.isArray(response.errors)) {
+      return response.errors;
+    }
+
+    if (response.fieldErrors && typeof response.fieldErrors === "object") {
+      return Object.keys(response.fieldErrors).map(function (fieldName) {
+        return response.fieldErrors[fieldName];
+      });
+    }
+
+    return [];
   }
 
   contactForm.on("submit", function (event) {
@@ -102,6 +127,7 @@ $(function () {
     var fields = [firstName, lastName, email, phone, message];
     var errors = [];
 
+    // Client-side required field validation.
     fields.forEach(function (field) {
       setFieldError(field, false);
       if (!field.val().trim()) {
@@ -120,17 +146,65 @@ $(function () {
       errors.push("Phone number format is invalid");
     }
 
+    // Stop early if local validation fails to avoid unnecessary network calls.
     if (errors.length) {
       statusMessage.removeClass("success").addClass("error");
       statusMessage.text("Please fix: " + errors.join(", "));
       return;
     }
 
-    statusMessage.removeClass("error").addClass("success");
-    statusMessage.text("Thanks! Your message has passed validation and is ready to send.");
-    contactForm[0].reset();
+    // Submit asynchronously and display response feedback in-place.
+    statusMessage.removeClass("error success").text("Sending...");
+
+    $.ajax({
+      url: contactForm.attr("action"),
+      method: "POST",
+      dataType: "json",
+      data: contactForm.serialize()
+    }).done(function (response) {
+      if (response.success) {
+        statusMessage.removeClass("error").addClass("success");
+        statusMessage.text(response.message || "Thanks! Your message has been sent.");
+        contactForm[0].reset();
+        return;
+      }
+
+      statusMessage.removeClass("success").addClass("error");
+
+      var responseErrors = collectErrorMessages(response);
+      if (responseErrors.length) {
+        statusMessage.text("Please fix: " + responseErrors.join(", "));
+      } else {
+        statusMessage.text(response.message || "Please review the highlighted fields.");
+      }
+
+      if (response.fieldErrors) {
+        Object.keys(response.fieldErrors).forEach(function (fieldName) {
+          var input = contactForm.find('[name="' + fieldName + '"]');
+          setFieldError(input, true);
+        });
+      }
+    }).fail(function (xhr) {
+      var response = xhr.responseJSON || {};
+      statusMessage.removeClass("success").addClass("error");
+
+      var responseErrors = collectErrorMessages(response);
+      if (responseErrors.length) {
+        statusMessage.text("Please fix: " + responseErrors.join(", "));
+        if (response.fieldErrors) {
+          Object.keys(response.fieldErrors).forEach(function (fieldName) {
+            var input = contactForm.find('[name="' + fieldName + '"]');
+            setFieldError(input, true);
+          });
+        }
+        return;
+      }
+
+      statusMessage.text(response.message || "Something went wrong sending your message. Please try again.");
+    });
   });
 
+  // Clear stale validation status as the user edits text inputs.
   contactForm.find("input").on("input", function () {
     $(this).removeClass("input-error");
     if (statusMessage.hasClass("error")) {
@@ -138,6 +212,7 @@ $(function () {
     }
   });
 
+  // Convenience action to copy displayed phone number to clipboard.
   $(".phone-number").on("click", function () {
     navigator.clipboard.writeText($(this).text().trim()).then(function () {
       statusMessage.removeClass("error").addClass("success");
